@@ -1,3 +1,8 @@
-import { setupSegmentActions } from "./actions";
+import { createSegmentActionsPlugin } from './actions';
+import { PluginOptions } from './types';
 
-export { setupSegmentActions };
+const ampSRSegmentWrapper = (options: PluginOptions) => {
+  return createSegmentActionsPlugin(options);
+};
+
+export default ampSRSegmentWrapper;

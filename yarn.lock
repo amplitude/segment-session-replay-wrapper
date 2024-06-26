@@ -34,16 +34,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@amplitude/analytics-remote-config@npm:^0.3.0":
-  version: 0.3.0
-  resolution: "@amplitude/analytics-remote-config@npm:0.3.0"
+"@amplitude/analytics-remote-config@npm:^0.3.1":
+  version: 0.3.1
+  resolution: "@amplitude/analytics-remote-config@npm:0.3.1"
   dependencies:
     "@amplitude/analytics-client-common": "npm:>=1 <3"
     "@amplitude/analytics-core": "npm:>=1 <3"
     "@amplitude/analytics-types": "npm:>=1 <3"
     idb: "npm:^8.0.0"
     tslib: "npm:^2.4.1"
-  checksum: 10c0/12913ae0a295b5f0952015b77fe61fcb1d9b329ca4efb000006ac5f1b1376680d5db284a31211c70c140e0b12e295e45f47850758e24182a5c031fca2062eab2
+  checksum: 10c0/66290af8c3b815e3e828fb61f1b2605cf87b6916b2a7f4156523fb3dd62bedf515c48d14a5ece3898db4c0de7ca071bba91961b40b27ab415057386b20174bd9
   languageName: node
   linkType: hard
 
@@ -95,19 +95,18 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@amplitude/session-replay-browser@npm:^1.9.1":
-  version: 1.9.1
-  resolution: "@amplitude/session-replay-browser@npm:1.9.1"
+"@amplitude/session-replay-browser@npm:1.9.4":
+  version: 1.9.4
+  resolution: "@amplitude/session-replay-browser@npm:1.9.4"
   dependencies:
     "@amplitude/analytics-client-common": "npm:>=1 <3"
     "@amplitude/analytics-core": "npm:>=1 <3"
-    "@amplitude/analytics-remote-config": "npm:^0.3.0"
+    "@amplitude/analytics-remote-config": "npm:^0.3.1"
     "@amplitude/analytics-types": "npm:>=1 <3"
     "@amplitude/rrweb": "npm:^2.0.0-alpha.14"
-    "@medv/finder": "npm:^3.2.0"
     idb: "npm:^8.0.0"
     tslib: "npm:^2.4.1"
-  checksum: 10c0/2163cacea42cf0f6966f82294bd07f41c708eb7348286e9b576698e8359d67e9b5b35d135842d7fa86a7175dff2b8e5f1b3aec1c5d4682aeb4c360bf7f894803
+  checksum: 10c0/46cfb07ddf56863aed4d1543ea59f689d8b34b0e2e08e5fa8c0ec69d9ca2613cf30417081ac14083aa23d263dc2890233a78f60c9e714c7ae451cc49bd56e5a0
   languageName: node
   linkType: hard
 
@@ -1075,13 +1074,6 @@ __metadata:
   dependencies:
     "@lukeed/csprng": "npm:^1.1.0"
   checksum: 10c0/f9cc0385021f352f444d96dd101afd2a0efd3b2e85a61ac67deb8220409f75a6a426ed6525d297d97746f7931e3079ac6218777551a7c82686de7d292220cb1f
-  languageName: node
-  linkType: hard
-
-"@medv/finder@npm:^3.2.0":
-  version: 3.2.0
-  resolution: "@medv/finder@npm:3.2.0"
-  checksum: 10c0/2215db8f105430b40fd5c0071cca834667e1f73e8245a6a69e7aee05e35d1ed7c0f24824fe6e4d93e73bb287ee954681e7c7aa036b621043a760a6cae3a696b5
   languageName: node
   linkType: hard
 
@@ -5997,7 +5989,7 @@ __metadata:
   version: 0.0.0-use.local
   resolution: "segment-session-replay-wrapper@workspace:."
   dependencies:
-    "@amplitude/session-replay-browser": "npm:^1.9.1"
+    "@amplitude/session-replay-browser": "npm:1.9.4"
     "@jest/globals": "npm:29.7.0"
     "@rollup/plugin-commonjs": "npm:^23.0.4"
     "@rollup/plugin-json": "npm:^6.1.0"
