@@ -2,26 +2,30 @@ import * as sessionReplay from '@amplitude/session-replay-browser';
 import { Context } from '@segment/analytics-next';
 import { updateSessionIdAndAddProperties } from '../src/actions';
 
-import * as cookie from 'cookiejs';
+import Cookie from 'js-cookie';
 
 jest.mock('@amplitude/session-replay-browser');
-type MockedSessionReplay = jest.Mocked<typeof import('@amplitude/session-replay-browser')>;
+const mockedSessionReplay = <jest.Mocked<typeof sessionReplay>>sessionReplay;
 
-jest.mock('cookie-js');
-type MockedCookieJS = jest.Mocked<typeof import('cookiejs')>;
+jest.mock('js-cookie');
+const mockedCookieJS = <jest.Mocked<typeof Cookie>>Cookie;
 
 describe('Segment Actions Wrapper', () => {
-  const { getSessionReplayProperties, setSessionId } = sessionReplay as MockedSessionReplay;
-  const { default } = cookie as MockedCookieJS;
-  const { get, set}  = default;
+  const { getSessionReplayProperties, setSessionId } = mockedSessionReplay;
+  // const { get, set } = cookie as MockedCookieJS;
 
   beforeEach(() => {
-    getSessionReplayProperties.mockReturnValueOnce;
+    setSessionId.mockReturnValue({
+      promise: Promise.resolve(),
+    });
   });
   describe('updateSessionIdAndAddProperties', () => {
     test('should update the session id', async () => {
-      get.mockReturnValueOnce('123');
+      // @ts-ignore
+      mockedCookieJS.get.mockReturnValueOnce('123');
+      const updateEventMock = jest.fn();
       await updateSessionIdAndAddProperties({
+        updateEvent: updateEventMock,
         event: {
           integrations: {
             'Actions Amplitude': {
@@ -31,7 +35,7 @@ describe('Segment Actions Wrapper', () => {
         },
       } as unknown as Context);
       expect(setSessionId).toHaveBeenCalledWith(130);
-      expect(set).toHaveBeenCalledWith(130)
+      expect(mockedCookieJS.set).toHaveBeenCalledWith('amp_session_id', '130');
     });
     test('should pass session replay properties on the event', async () => {
       getSessionReplayProperties.mockReturnValueOnce({
@@ -43,7 +47,7 @@ describe('Segment Actions Wrapper', () => {
         updateEvent: updateEventMock,
         event: {
           properties: {
-            price: 3
+            price: 3,
           },
           integrations: {
             'Actions Amplitude': {
@@ -53,7 +57,7 @@ describe('Segment Actions Wrapper', () => {
         },
       } as unknown as Context);
       expect(getSessionReplayProperties).toHaveBeenCalled();
-      expect(updateEventMock).toHaveBeenCalledWith({})
+      expect(updateEventMock).toHaveBeenCalledWith('properties', { '[Amplitude] Session Replay ID': 123, price: 3 });
     });
   });
 });
