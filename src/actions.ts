@@ -29,6 +29,14 @@ export const updateSessionIdAndAddProperties = async (ctx: Context) => {
     await sessionReplay.setSessionId(nextSessionId, deviceId).promise;
   }
 
+  await sessionReplay.evaluateTargetingAndCapture({
+    event: {
+      event_type: ctx.event.event || '',
+      event_properties: ctx.event.properties,
+      time: ctx.event.timestamp instanceof Date ? ctx.event.timestamp.getTime() : undefined,
+    },
+    userProperties: ctx.event.traits,
+  });
   const sessionReplayProperties = sessionReplay.getSessionReplayProperties();
   const properties = {
     ...ctx.event.properties,
@@ -59,6 +67,7 @@ export const createSegmentActionsPlugin = async ({
         sessionId: storedSessionId,
         deviceId: deviceId || undefined,
         version: { type: 'segment', version: VERSION },
+        userProperties: user.traits(),
       }).promise;
     },
 
@@ -77,6 +86,8 @@ export const createSegmentActionsPlugin = async ({
       const deviceId = getUserId(ctx);
       const sessionId = sessionReplay.getSessionId();
       sessionId && (await sessionReplay.setSessionId(sessionId, deviceId).promise);
+
+      await sessionReplay.evaluateTargetingAndCapture({ userProperties: ctx.event.traits });
 
       return ctx;
     },
