@@ -1,5 +1,5 @@
 import * as sessionReplay from '@amplitude/session-replay-browser';
-import { Context, Plugin } from '@segment/analytics-next';
+import { Analytics, Context, Plugin } from '@segment/analytics-next';
 import Cookie from 'js-cookie';
 import { AmplitudeIntegrationData, PluginOptions } from './types';
 
@@ -28,6 +28,7 @@ export const updateSessionIdAndAddProperties = async (ctx: Context) => {
     await sessionReplay.setSessionId(nextSessionId, deviceId).promise;
   }
 
+  await sessionReplay.evaluateTargetingAndRecord({ event: event, userProperties: ajs.user().traits() });
   const sessionReplayProperties = sessionReplay.getSessionReplayProperties();
   const properties = {
     ...ctx.event.properties,
@@ -57,7 +58,14 @@ export const createSegmentActionsPlugin = async ({
         ...sessionReplayOptions,
         sessionId: storedSessionId,
         deviceId: deviceId || undefined,
+        userProperties: user.traits(),
       }).promise;
+    },
+
+    identify: async (ctx, ajs) => {
+      await sessionReplay.evaluateTargetingAndRecord({ userProperties: ajs.user().traits() });
+
+      return ctx;
     },
 
     track: async (ctx) => {
