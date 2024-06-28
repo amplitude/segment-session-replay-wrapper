@@ -1,4 +1,3 @@
-import { LogLevel } from '@amplitude/analytics-types';
 import * as sessionReplay from '@amplitude/session-replay-browser';
 import { Context, Plugin } from '@segment/analytics-next';
 import Cookie from 'js-cookie';
@@ -12,6 +11,12 @@ const getStoredSessionId = () => {
   return undefined;
 };
 
+const getUserId = (ctx: Context) => {
+  const userId = ctx.event.userId || ctx.event.anonymousId;
+
+  return userId as string;
+};
+
 export const updateSessionIdAndAddProperties = async (ctx: Context) => {
   const storedSessionId = getStoredSessionId() || 0;
   const amplitudeIntegrationData =
@@ -19,7 +24,8 @@ export const updateSessionIdAndAddProperties = async (ctx: Context) => {
   const nextSessionId = amplitudeIntegrationData?.session_id;
   if (nextSessionId && storedSessionId < nextSessionId) {
     Cookie.set('amp_session_id', nextSessionId.toString());
-    await sessionReplay.setSessionId(nextSessionId).promise;
+    const deviceId = getUserId(ctx);
+    await sessionReplay.setSessionId(nextSessionId, deviceId).promise;
   }
 
   const sessionReplayProperties = sessionReplay.getSessionReplayProperties();
@@ -34,7 +40,6 @@ export const updateSessionIdAndAddProperties = async (ctx: Context) => {
 export const createSegmentActionsPlugin = async ({
   amplitudeApiKey,
   segmentInstance,
-  deviceId,
   sessionReplayOptions,
 }: PluginOptions) => {
   const sessionReplayPlugin: Plugin = {
@@ -45,19 +50,27 @@ export const createSegmentActionsPlugin = async ({
     isLoaded: () => true,
     load: async (_ctx, ajs) => {
       const user = ajs.user();
+      const deviceId = user.id() || user.anonymousId();
       const storedSessionId = getStoredSessionId();
 
       await sessionReplay.init(amplitudeApiKey, {
-        sessionId: storedSessionId,
-        deviceId: deviceId || (user.anonymousId() as string),
-        logLevel: LogLevel.Debug,
         ...sessionReplayOptions,
+        sessionId: storedSessionId,
+        deviceId: deviceId || undefined,
       }).promise;
     },
 
     track: updateSessionIdAndAddProperties,
 
     page: updateSessionIdAndAddProperties,
+
+    identify: async (ctx) => {
+      const deviceId = getUserId(ctx);
+      const sessionId = sessionReplay.getSessionId();
+      sessionId && (await sessionReplay.setSessionId(sessionId, deviceId).promise);
+
+      return ctx;
+    },
   };
 
   await segmentInstance.register(sessionReplayPlugin);

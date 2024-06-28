@@ -5,7 +5,6 @@ export interface PluginOptions {
   amplitudeApiKey: string;
   segmentInstance: AnalyticsBrowser;
   sessionReplayOptions: SessionReplayOptions;
-  deviceId?: string;
 }
 
 export type AmplitudeIntegrationData = {
