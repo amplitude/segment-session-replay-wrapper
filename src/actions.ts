@@ -50,7 +50,7 @@ export const createSegmentActionsPlugin = async ({
     isLoaded: () => true,
     load: async (_ctx, ajs) => {
       const user = ajs.user();
-      const deviceId = user.id() || user.anonymousId();
+      const deviceId = user.anonymousId();
       const storedSessionId = getStoredSessionId();
 
       await sessionReplay.init(amplitudeApiKey, {
