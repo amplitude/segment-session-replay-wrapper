@@ -1,6 +1,6 @@
 {
   "name": "@amplitude/segment-session-replay-wrapper",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Wrapper to enable usage of Segment with Amplitude's Session Replay product",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
