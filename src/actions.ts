@@ -39,9 +39,10 @@ export const updateSessionIdAndAddProperties = async (ctx: Context) => {
 
 export const createSegmentActionsPlugin = async ({
   amplitudeApiKey,
-  segmentInstance,
   sessionReplayOptions,
+  segmentInstance,
 }: PluginOptions) => {
+  let initPromise: Promise<void>;
   const sessionReplayPlugin: Plugin = {
     name: 'Session Replay Events',
     type: 'enrichment',
@@ -52,19 +53,25 @@ export const createSegmentActionsPlugin = async ({
       const user = ajs.user();
       const deviceId = user.anonymousId();
       const storedSessionId = getStoredSessionId();
-
-      await sessionReplay.init(amplitudeApiKey, {
+      initPromise = sessionReplay.init(amplitudeApiKey, {
         ...sessionReplayOptions,
         sessionId: storedSessionId,
         deviceId: deviceId || undefined,
       }).promise;
     },
 
-    track: updateSessionIdAndAddProperties,
+    track: async (ctx) => {
+      await initPromise;
+      return await updateSessionIdAndAddProperties(ctx);
+    },
 
-    page: updateSessionIdAndAddProperties,
+    page: async (ctx) => {
+      await initPromise;
+      return await updateSessionIdAndAddProperties(ctx);
+    },
 
     identify: async (ctx) => {
+      await initPromise;
       const deviceId = getUserId(ctx);
       const sessionId = sessionReplay.getSessionId();
       sessionId && (await sessionReplay.setSessionId(sessionId, deviceId).promise);
