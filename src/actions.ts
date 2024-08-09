@@ -2,6 +2,7 @@ import * as sessionReplay from '@amplitude/session-replay-browser';
 import { Context, Plugin } from '@segment/analytics-next';
 import Cookie from 'js-cookie';
 import { AmplitudeIntegrationData, PluginOptions } from './types';
+import { VERSION } from './version';
 
 const getStoredSessionId = () => {
   const storedId = Cookie.get('amp_session_id') as string;
@@ -46,7 +47,7 @@ export const createSegmentActionsPlugin = async ({
   const sessionReplayPlugin: Plugin = {
     name: 'Session Replay Events',
     type: 'enrichment',
-    version: '1.0.0',
+    version: VERSION,
 
     isLoaded: () => true,
     load: async (_ctx, ajs) => {
@@ -57,6 +58,7 @@ export const createSegmentActionsPlugin = async ({
         ...sessionReplayOptions,
         sessionId: storedSessionId,
         deviceId: deviceId || undefined,
+        version: { type: 'segment', version: VERSION },
       }).promise;
     },
 
