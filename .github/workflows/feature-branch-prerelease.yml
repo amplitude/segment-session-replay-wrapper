@@ -89,7 +89,7 @@ jobs:
         with:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           version-file: './package.json,./package-lock.json'
-          pre-release: true
+          pre-release: 'true'
           pre-release-identifier: ${{ env.PREID }}
 
       # Use 'from git' option if `lerna version` has already been run
