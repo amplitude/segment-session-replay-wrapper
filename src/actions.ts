@@ -1,5 +1,5 @@
 import * as sessionReplay from '@amplitude/session-replay-browser';
-import { Analytics, Context, Plugin } from '@segment/analytics-next';
+import { Context, Plugin } from '@segment/analytics-next';
 import Cookie from 'js-cookie';
 import { AmplitudeIntegrationData, PluginOptions } from './types';
 
@@ -28,7 +28,14 @@ export const updateSessionIdAndAddProperties = async (ctx: Context) => {
     await sessionReplay.setSessionId(nextSessionId, deviceId).promise;
   }
 
-  await sessionReplay.evaluateTargetingAndCapture({ event: event, userProperties: ajs.user().traits() });
+  await sessionReplay.evaluateTargetingAndCapture({
+    event: {
+      event_type: ctx.event.event || '',
+      event_properties: ctx.event.properties,
+      time: ctx.event.timestamp instanceof Date ? ctx.event.timestamp.getTime() : undefined,
+    },
+    userProperties: ctx.event.traits,
+  });
   const sessionReplayProperties = sessionReplay.getSessionReplayProperties();
   const properties = {
     ...ctx.event.properties,
@@ -62,12 +69,6 @@ export const createSegmentActionsPlugin = async ({
       }).promise;
     },
 
-    identify: async (ctx, ajs) => {
-      await sessionReplay.evaluateTargetingAndCapture({ userProperties: ajs.user().traits() });
-
-      return ctx;
-    },
-
     track: async (ctx) => {
       await initPromise;
       return await updateSessionIdAndAddProperties(ctx);
@@ -83,6 +84,8 @@ export const createSegmentActionsPlugin = async ({
       const deviceId = getUserId(ctx);
       const sessionId = sessionReplay.getSessionId();
       sessionId && (await sessionReplay.setSessionId(sessionId, deviceId).promise);
+
+      await sessionReplay.evaluateTargetingAndCapture({ userProperties: ctx.event.traits });
 
       return ctx;
     },
