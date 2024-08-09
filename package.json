@@ -9,7 +9,7 @@
   "author": "Amplitude Inc",
   "license": "MIT",
   "dependencies": {
-    "@amplitude/session-replay-browser": "1.9.4",
+    "@amplitude/session-replay-browser": "1.14.0-srtargeting.0",
     "@segment/analytics-next": "^1.70.0",
     "js-cookie": "^3.0.5",
     "tslib": "^2.4.1"

@@ -28,7 +28,7 @@ export const updateSessionIdAndAddProperties = async (ctx: Context) => {
     await sessionReplay.setSessionId(nextSessionId, deviceId).promise;
   }
 
-  await sessionReplay.evaluateTargetingAndRecord({ event: event, userProperties: ajs.user().traits() });
+  await sessionReplay.evaluateTargetingAndCapture({ event: event, userProperties: ajs.user().traits() });
   const sessionReplayProperties = sessionReplay.getSessionReplayProperties();
   const properties = {
     ...ctx.event.properties,
@@ -63,7 +63,7 @@ export const createSegmentActionsPlugin = async ({
     },
 
     identify: async (ctx, ajs) => {
-      await sessionReplay.evaluateTargetingAndRecord({ userProperties: ajs.user().traits() });
+      await sessionReplay.evaluateTargetingAndCapture({ userProperties: ajs.user().traits() });
 
       return ctx;
     },
