@@ -1,3 +1,12 @@
+## [0.4.1-targetedcapture.0](https://github.com/amplitude/segment-session-replay-wrapper/compare/v0.4.0...v0.4.1-targetedcapture.0) (2024-08-23)
+
+
+### Features
+
+* support targeted replay capture ([3d7a2c0](https://github.com/amplitude/segment-session-replay-wrapper/commit/3d7a2c053794a150a44ad0afde4af110d4bcdc27))
+
+
+
 # [0.4.0](https://github.com/amplitude/segment-session-replay-wrapper/compare/v0.3.1...v0.4.0) (2024-08-23)
 
 
