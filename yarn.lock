@@ -25,14 +25,15 @@
     "@amplitude/analytics-types" "^2.6.0"
     tslib "^2.4.1"
 
-"@amplitude/analytics-remote-config@^0.4.0":
-  version "0.4.0"
-  resolved "https://registry.yarnpkg.com/@amplitude/analytics-remote-config/-/analytics-remote-config-0.4.0.tgz#e9835836ef40c6b2e72bc8c7a88803dda5559556"
-  integrity sha512-ilp9Dz8Z92V9Wilmz8XIbvEbtuVaN65+jM06JP8I7wL8eNOHVIi4HcI151BzIyekjbprbS1w18Ps3dj2sHlFXA==
+"@amplitude/analytics-remote-config@^0.3.3":
+  version "0.3.5"
+  resolved "https://registry.yarnpkg.com/@amplitude/analytics-remote-config/-/analytics-remote-config-0.3.5.tgz#b3b9ca15f183a0399c451b9395d9c8281d310e7d"
+  integrity sha512-jnm/w+/NFSLnjcHSP/MYvdy6RQ7lVqWyAiIw/cTs+iL6cJaoauHuB0gbUnqGTPUhvbUlKa7faz1iiXGwt6HSjA==
   dependencies:
     "@amplitude/analytics-client-common" ">=1 <3"
     "@amplitude/analytics-core" ">=1 <3"
     "@amplitude/analytics-types" ">=1 <3"
+    idb "^8.0.0"
     tslib "^2.4.1"
 
 "@amplitude/analytics-types@>=1 <3", "@amplitude/analytics-types@^2.6.0":
@@ -59,7 +60,7 @@
   dependencies:
     "@amplitude/rrweb-snapshot" "^2.0.0-alpha.20"
 
-"@amplitude/rrweb@2.0.0-alpha.20":
+"@amplitude/rrweb@^2.0.0-alpha.14":
   version "2.0.0-alpha.20"
   resolved "https://registry.yarnpkg.com/@amplitude/rrweb/-/rrweb-2.0.0-alpha.20.tgz#201069ff3f511c020c093e7dd92172f09ff8a105"
   integrity sha512-r2a/ZUTSXwptAsc22pFBvbcb5ixt2Y2l5/HFeyDV7K/bT2uxXoytERZlPIuHuhaK112pnWdAGPRWIqf+IFQGkQ==
@@ -73,16 +74,14 @@
     fflate "^0.4.4"
     mitt "^3.0.0"
 
-"@amplitude/session-replay-browser@1.13.6":
-  version "1.13.6"
-  resolved "https://registry.yarnpkg.com/@amplitude/session-replay-browser/-/session-replay-browser-1.13.6.tgz#58b7210af65d580902dd1018e062831c02e7fe94"
-  integrity sha512-zrdbVpq7tadZQIRBFFz2jCmSxtjItyd42Zp2dUH+Q9cI412lxcUC2DxOC0jrtuz1VK7gW0vjdI+4Ada1tgO97g==
+"@amplitude/session-replay-browser@file:../Amplitude-Typescript/packages/session-replay-browser":
+  version "1.11.3"
   dependencies:
     "@amplitude/analytics-client-common" ">=1 <3"
     "@amplitude/analytics-core" ">=1 <3"
-    "@amplitude/analytics-remote-config" "^0.4.0"
+    "@amplitude/analytics-remote-config" "^0.3.3"
     "@amplitude/analytics-types" ">=1 <3"
-    "@amplitude/rrweb" "2.0.0-alpha.20"
+    "@amplitude/rrweb" "^2.0.0-alpha.14"
     idb "^8.0.0"
     tslib "^2.4.1"
 

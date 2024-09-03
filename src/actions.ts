@@ -58,7 +58,6 @@ export const createSegmentActionsPlugin = async ({
         ...sessionReplayOptions,
         sessionId: storedSessionId,
         deviceId: deviceId || undefined,
-        version: { type: 'segment', version: VERSION },
       }).promise;
     },
 
